@@ -1,0 +1,57 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+    
+            body{
+                width: 500px;
+                height: 480px;
+                background-color: rgb(199, 199, 203);
+                display: flex;
+                margin-left: 300px;
+                /* flex-direction: row; */
+            }
+            h2{
+                margin-bottom: 30px;
+                margin-left: 100px;
+            }
+            button{
+                margin-left: 100px;
+            }
+            .container{
+                width: 300px;
+                border-style: solid;
+                
+            }
+            
+        
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        
+    <h2>signup</h2>  
+    {%block content%}
+    <form action=""method="post">
+        {% csrf_token %}
+        {%for field in form%} <br><br>
+        <label for="">{{field.label}}</label>
+        {{field}} <br><br>
+        {%endfor%}
+        <button type="submit">signup</button>
+
+<p>Already have an account?<a href="{%url 'signin'%}">login</a></p>
+</form> 
+</div>
+{% for message in messages %}
+<h1>{{message}}</h1> 
+{% endfor %} 
+    {%endblock%}
+    
+</body>
+</html>

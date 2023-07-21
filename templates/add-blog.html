@@ -1,0 +1,37 @@
+<style>
+.hed1{
+    color: aliceblue;
+}
+.box{
+    background-color: yellowgreen;
+}
+label{
+    color: aliceblue;
+}
+</style>
+
+{%extends 'home.html'%}
+{%block content%}
+<div class="box">
+<h1 class="hed1">Add Blogs</h1>
+<form class="f1" action="" method="POST" enctype="multipart/form-data">
+    {%csrf_token%}
+    <label for="">Blog Name</label>
+    <input name="Blog_title" type="text"> <br><br>
+    <label for="">Auther Name</label>
+    <input value="{{request.user.username}}" type="text" name="Author_name"> <br> <br>
+    <label for="">Published Date</label>
+    <input name=" Publish_date" type="date"> <br><br>
+    <label for=""> Blog Category</label>
+    <input name="Blog_category" type="text"> <br><br>
+    <label for="">Caption</label>
+    <textarea name="Blog_caption" id="" cols="30" rows="10"></textarea> <br><br>
+    <label for="">Blog Image</label>
+    <input name="Blog_image" type="file"> <br><br>
+    <button type="submit">Add Blog</button>
+</form>
+{% for message in messages %}
+<h1>{{message}}</h1> 
+{% endfor %} 
+</div>
+{%endblock%}

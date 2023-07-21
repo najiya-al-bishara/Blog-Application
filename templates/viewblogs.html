@@ -1,0 +1,100 @@
+{% extends "home.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+  
+  {%block content%}
+    {%for blog in page_obj.object_list%}
+
+    <div class="row row-cols-1 row-cols-md-3 g-4" style=" display: flex; justify-content: center; flex-wrap: wrap; padding: 5vw;"> 
+      <div class="col">
+        <div class="card h-100">
+          {%if blog.Blog_image%}
+          <img src="{{blog.Blog_image.url}}" class="card-img-top"
+         
+            alt="Hollywood Sign on The Hill" height="350px" width="600px"/>
+            {%endif%}
+          <div class="card-body">
+            <h5 class="card-title">{{blog.Blog_title}}</h5>
+        <p>{{blog.Author_name}}</p>
+        <h2>{{blog.Blog_category}}</h2>
+        <h3>{{blog.Publish_date}}</h3>
+        <p class="card-text">
+          {{blog.Blog_caption}}</p>
+          <form method="post" action="{%url 'like' Blog_id=blog.Blog_id%}">
+            {%csrf_token%}
+
+
+            <button type="submit" style="border: none;" class="like-button">
+
+                <svg class="heart-icon {% if user in blog.likes.all %}liked{% endif %}"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    fill="{% if user in blog.likes.all %}red{% else %}none{% endif %}" width="18"
+                    height="18" stroke="black" stroke-width="1" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path
+                        d="M12 21.35l-1.65-1.49C4.74 14.04 2 11.22 2 7.77 2 4.42 4.42 2 7.77 2c1.93 0 3.68.91 4.77 2.34A5.978 5.978 0 0 1 17.23 2C20.58 2 23 4.42 23 7.77c0 3.45-2.74 6.27-8.35 12.09L12 21.35z" />
+                </svg>
+                {{ blog.total_likes }} Likes
+            </button>
+        </form>
+
+
+
+        
+        
+
+       
+          
+              
+            
+            
+            
+           
+          </div>
+        </div>
+      </div>
+    </div> 
+      {%endfor%}
+      {%endblock%}
+      
+    
+      
+ 
+
+
+
+
+
+
+
+
+
+
+<!-- <h2>blogs</h2>
+<div class="box" style="width: 38rem; padding-left: 500px;">
+  {%if blog.Blog_image%}
+    <img src="{{blog.Blog_image.url}}" class="card-img-top" alt="travel">
+    {%endif%}
+    <div class="card-body">
+        <p>{{blog.Blog_title}}</p>
+        <p>{{blog.Author_name}}</p>
+        <p>{{blog.Publish_date}}</p>
+        <p>{{blog.Blog_category}}</p>
+
+      <p class="card-text">{{blog.Blog_caption}}</p>
+    </div>
+     <button type="submit" class="btn">Base class</button> -->
+    
+  
+ 
+  
+</body>
+</html>

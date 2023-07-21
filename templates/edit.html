@@ -1,0 +1,32 @@
+{%extends "home.html"%}
+{%block content%}
+<form action="" method="POST" enctype="multipart/form-data">
+    {%csrf_token%}
+
+    <div class="box" style="background-color: yellow; height: 600px; width: 500px; font-size: 15px; font-family: initial;text-align: center; font-weight: 700;display: flex;justify-content: center;margin-top: 30px; margin-bottom: 30px;">
+        <div>
+            <br>
+            <h1>EDIT BLOG</h1>
+            <br><br>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="Blog_title">BLOG NAME</label>
+                <input value="{{ single_blog.Blog_title }}" type="text" name="Blog_title">
+                <br><br>
+                <label for="Blog_category">CATEGORY</label>
+                <input value="{{ single_blog.Blog_category }}" type="text" name="Blog_category">
+                <br><br>
+                <label for="Blog_caption">CAPTION</label>
+                <textarea name="Blog_caption" id="" cols="30" rows="10">{{ single_blog.Blog_caption }}</textarea>
+                <br><br>
+                <label for="Blog_image">BLOG IMAGE</label>
+                <input accept="image/*" type="file" name="Blog_image">
+                <br><br>
+                <button type="submit">UPDATE BLOG</button>
+            </form>
+        </div>
+    </div>
+    
+
+</form>
+{%endblock%}
