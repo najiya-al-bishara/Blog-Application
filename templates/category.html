@@ -81,9 +81,13 @@
       </style>
 </head>
 <body>
-  <h2 class="hed2">My Blogs</h2>
-    {%for blog in myblog%}
-<!-- <h2>blogs</h2> -->
+    {%block content%}
+    {%for category in category_blogs %}
+  <h2 class="hed2">{{category.category_name}}</h2>
+    {%if category.blogs%}
+    {%for blog in category.blogs %}
+
+<ul>
 <div class="card" style="width: 38rem;">
   {%if blog.Blog_image%}
     <img src="{{blog.Blog_image.url}}" class="card-img-top" alt="travel">
@@ -95,38 +99,22 @@
         <p>{{blog.Blog_category}}</p>
 
       <p class="card-text">{{blog.Blog_caption}}</p>
-      <h3>comments</h3>
-      <form action="" method="POST">
-        {%csrf_token%}
-        <label for="content">comment</label>
-        <textarea name="content" id="content" cols="30" rows="10"></textarea> <br>
-        <button type="submit">Add Comment</button>
-
-     </form>
-     <h3>recent comments</h3>
-     {%for comment in comments%}
-     <p>{{comment.authorname}} : {{comment.content}}</p>
-     {%endfor%}
-     {% if remaining_comments%}
-     <details>
-      <summary>read more</summary>
-      {%for comment in remaining_comments%}
-      <p>{{comment.authorname}} : {{comment.content}}</p>
-
-      {%endfor%}
-     </details>
-     {%endif%}
     </div>
-    <!-- <button type="submit" class="btn">Base class</button> -->
-    <button class="btn2" type="submit">
-      <a href="{%url 'deleteblog' blog.Blog_id %}">Delete</a>
-    </button>
-    <button class="btn3" type="submit">
-      <a href="{%url 'edit' blog.Blog_id %}">Edit</a>
-    </button>
+
+    {%empty%}
+    <li>No blogs available in this category</li>
+    {%endfor%}
+    </ul>
+    {%else%}
+    <p>No blogs available in this category</p>
+    {%endif%}
+    {%endfor%}
+
+
+  
     
   </div>
-  {%endfor%}
+  
   <nav aria-label="Page navigation example">
     <ul class="pagination" style="display: flex; justify-content: center;">
 
@@ -142,19 +130,8 @@
       {%endif%}
     </ul>
   </nav>
+  {%endblock%}
   
   
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

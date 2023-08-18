@@ -4,9 +4,10 @@ from blog_app.forms import UserAddForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
-from.models import Bloglist
+from.models import Bloglist,Comment
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from django.shortcuts import get_object_or_404
+
 
 
 # Create your views here.
@@ -29,7 +30,16 @@ def view_blog(request):
     
     return render(request,"viewblogs.html",{"page_obj":page_obj})
 
-
+CATEGORY_CHOICES=(
+    
+    ('Fashion','Fashion&styles'),
+    ('Business','Business'),
+    ('Social','Social'),
+    ('Travel','Travel'),
+    ('Food','Food'),
+    ('Culture','Culture'),
+    ('Nature','Nature'),
+)
 
 def add_blog(request):
      if request.method=='POST':
@@ -39,7 +49,34 @@ def add_blog(request):
         blog.save()
         messages.info(request,"successfully added")
         return redirect("view_blog")
-     return render(request,"add-blog.html")
+     return render(request,"add-blog.html",{'category_choices':CATEGORY_CHOICES})
+
+CATEGORY_CHOICES=(
+   
+    ('Fashion','Fashion&styles'),
+    ('Business','Business'),
+    ('Social','Social'),
+    ('Travel','Travel'),
+    ('Food','Food'),
+    ('Culture','Culture'),
+    ('Nature','Nature'),
+)
+
+
+def category_view(request,cate_code):
+    category_blogs=[]
+    for code,name in CATEGORY_CHOICES:
+        if code==cate_code:
+            blogs=Bloglist.objects.filter(Blog_category=code)
+            category_blogs.append({'category_name':name,'blogs':blogs})
+            break
+        context={'category_blogs':category_blogs,}
+    return render(request,'category.html', context)
+
+
+    
+
+
 
 # delete blog
 def deleteblog(request,pk):
@@ -82,7 +119,23 @@ def edit(request,vid):
             single_blog.Blog_image=request.FILES["Blog_image"]
         single_blog.save()
         return redirect("view_blog")
-    return render(request,"edit.html",{"single_blog":single_blog})        
+    return render(request,"edit.html",{"single_blog":single_blog}) 
+
+#comment section
+def blog_comment(request,blog_id):
+    blog=get_object_or_404(Bloglist,Blog_id=blog_id)
+    comments=Comment.objects.filter(blog=blog).order_by('-timestamp')[:2]
+    remaining_comments=Comment.objects.filter(blog=blog).order_by('-timestamp')[2:]
+    if request.method == "POST":
+        authorname=blog.Author_name
+        content=request.POST.get('content')
+        comment=Comment(blog=blog, authorname=authorname,content=content)
+        comment.save()
+        return redirect('blog_comment',blog_id=blog_id)
+    return render(request,'viewmy_blog.html',{'blog':blog,'comments':comments,'remaining_comments':remaining_comments})
+
+        
+
 
 
     
